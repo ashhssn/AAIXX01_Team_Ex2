@@ -1,17 +1,24 @@
 ---
-title: "week_10_lab_personal"
-author: "Ashsyahid, Owen, Sherwyn, Xuan Yu, Nigel"
-date: "2024-07-09"
-date-format: "dddd MMM D, YYYY"
-format:
+title: "team_04_tidyverse.qmd"
+format: 
   html:
     toc: true
-    toc-depth: 3
-    toc_location: left
-    number-sections: false
-    number-depth: 3
+    toc-depth: 2
     embed-resources: true
+author: "Ashsyahid, Owen, Sherwyn, Xuan Yu, Nigel"
+number_sections: false
+knitr:
+  opts_chunk:
+    message: false
 ---
+
+```{r}
+#| label: load-packages
+#| include: false
+
+library(gt)
+library(tidyverse)
+```
 
 # Task 1: Converting EPL Football Results into a League Table
 
@@ -169,4 +176,82 @@ We used the `gt` package to create a more visually appealing and interactive tab
 
 # Task 3: Visualizing Michelson’s Speed-of-Light Measurements
 
-...
+```{r}
+#| echo: true
+#| eval: true
+data(morley)
+morley <- as_tibble(morley)
+morley
+```
+## 3.1 Convert Expt Column to Factor
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley <- morley %>%
+  mutate(Expt = as.factor(Expt))
+morley
+```
+## 3.2 Plot 1 – Create a Scatter Plot displaying Experiment Number vs. Measured Speeds
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley %>%
+  ggplot(aes(x = Expt, y = Speed)) +
+  geom_point() +
+  labs(title = "Experiment Number vs. Measured Speeds",
+       caption = "Source: R data set `morley`",
+       x = "Experiment Number",
+       y = "Measured Speeds")
+```
+## 3.3 Plot 2 – Create a Box Plot Measured Speeds with One Box Experiment
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley %>%
+  ggplot(aes(x = Expt, y = Speed)) +
+  geom_boxplot() +
+  labs(title = "Measured Speeds with One Box Experiment",
+       caption = "Source: R data set `morley`",
+       x = "Experiment Number",
+       y = "Measured Speeds")
+```
+## 3.4 Plot 3 – Add a Violin Plot in Plot 2
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley %>%
+  ggplot(aes(x = Expt, y = Speed)) +
+  geom_violin(fill = "lightblue", alpha = 0.3) +
+  geom_boxplot(width = 0.2) +
+  labs(title = "Measured Speeds with One Box Experiment with Violin plots",
+       caption = "Source: R data set `morley`",
+       x = "Experiment Number",
+       y = "Measured Speeds")
+```
+
+## 3.5 Plot 4 – Create a Faceted Plot Containing 5 Histograms
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley %>%
+  ggplot(aes(x = Speed)) +
+  geom_histogram(bins = 10, fill = NA, color="black") +
+  facet_wrap(~Expt) +
+  labs(title = "Faceted Plot Containing 5 Histograms",
+       caption = "Source: R data set `morley`",
+       x = "Measured Speeds",
+       y = "Frequency")
+```
+## 3.6 Discuss Your Choice Among the 4 Visualization Plots
+
+We choose Plot 3 - Violin Plot + Box Plot. Since violin plot can be used for grouped data, this plot is chosen because it provides a good visualization of the distribution of the measured speeds across the different experiments. The box plot provides a summary of the distribution of the measured speeds, while the violin plot provides a more detailed view of the distribution of the measured speeds. The combination of the two plots allows us to see the spread of the measured speeds and the distribution of the measured speeds within each experiment.   
