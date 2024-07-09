@@ -166,7 +166,7 @@ We used the `gt` package to create a more visually appealing and interactive tab
 # Task 2: Finding and Visualizing a Real-World Dataset
 
 
-## 2.1 Loading and Cleaning of Data by Removing NA Values and Averaging Yearly Data
+## 2.1 Use R Code to Validate Conditions C, D, and E for Your Data
 ```{r setup, warning=FALSE, message=FALSE}
 
 ## Load the data
@@ -191,7 +191,7 @@ yearly_data <- singapore_data %>%
 print(yearly_data)
 ```
 
-## 2.2 Generating Scatterplot of the Average Temperature in Singapore
+## 2.2 Plot 1 – Generate a Scatter Plot Using geom_point()
 ```{r warning=FALSE, message=FALSE}
 # Generate the scatter plot
 scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
@@ -208,7 +208,7 @@ scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
 print(scatter_plot)
 ```
 
-## 2.3 Improving the Scatterplot with Transparency and Jittering
+## 2.3 Plot 2 – Create an Improved Plot to Mitigate Overplotting
 ```{r warning=FALSE, message=FALSE}
 improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
   geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
@@ -224,7 +224,7 @@ improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) 
 print(improved_scatter_plot)
 ```
 
-## 2.4 Adding a Trend Line to the Scatterplot
+## Plot 3 – Add a Trend Curve in Plot 2 and Discuss Insights
 ```{r warning=FALSE, message=FALSE}
 # Scatter plot with transparency and jittering, and a trend curve
 scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +

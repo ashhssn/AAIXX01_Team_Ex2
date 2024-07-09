@@ -1,0 +1,362 @@
+---
+title: "team_04_tidyverse.qmd"
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+    warning: false
+date: 07-09-2024
+author: "Ashsyahid, Owen, Sherwyn, Xuan Yu, Nigel"
+number_sections: false
+knitr:
+  opts_chunk:
+    message: false
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+
+library(gt)
+library(tidyverse)
+```
+
+# Task 1: Converting EPL Football Results into a League Table
+
+## 1.1 Generate a League Table from the EPL Results
+```{r warning=FALSE, message=FALSE}
+epl_results <- read_csv("epl/epl_results.csv")
+epl_teams <- read_csv("epl/epl_teams.csv")
+```
+
+```{r}
+# Prepare the results data
+epl_results_long <- epl_results |>
+  pivot_longer(cols = -home_team, names_to = "away_team", values_to = "result") |>
+  separate(result, into = c("home_goals", "away_goals"), sep = "-", convert = TRUE) |>
+  filter(!is.na(home_goals))
+```
+
+```{r}
+# Calculate home team statistics
+home_stats <- epl_results_long |>
+  group_by(home_team) |>
+  summarize(
+    points_home = sum(if_else(home_goals > away_goals, 3, if_else(home_goals == away_goals, 1, 0))),
+    goals_for_home = sum(home_goals),
+    goals_against_home = sum(away_goals)
+  )
+```
+
+```{r}
+# Calculate away team statistics
+away_stats <- epl_results_long |>
+  group_by(away_team) |>
+  summarize(
+    points_away = sum(if_else(away_goals > home_goals, 3, if_else(away_goals == home_goals, 1, 0))),
+    goals_for_away = sum(away_goals),
+    goals_against_away = sum(home_goals)
+  )
+```
+
+```{r}
+# Combine home and away statistics
+team_stats <- home_stats |>
+  rename(team = home_team) |>
+  full_join(away_stats, by = c("team" = "away_team")) |>
+  mutate(
+    points = points_home + points_away,
+    goals_for = goals_for_home + goals_for_away,
+    goals_against = goals_against_home + goals_against_away,
+    goal_diff = goals_for - goals_against
+  ) |>
+  select(team, points, goal_diff, goals_for)
+```
+
+```{r}
+# Add full team names
+league_table <- team_stats |>
+  left_join(epl_teams, by = c("team" = "abbr")) |>
+  select(team = name, points, goal_diff, goals_for)
+```
+
+```{r}
+# Rank the teams
+league_table <- league_table |>
+  arrange(desc(points), desc(goal_diff), desc(goals_for)) |>
+  mutate(rank = row_number()) |>
+  select(rank, team, points, goal_diff, goals_for)
+```
+
+```{r}
+# Display the league table
+league_table
+```
+...
+
+## 1.2 Improve Visualization Using `gt` Functions and Discuss rationale
+```{r}
+# Create a gt table
+gt_table <- league_table |>
+  gt() |>
+  tab_header(
+    title = md("**English Premier League Table**"),
+    subtitle = md("Season: 2023/2024")
+  ) |>
+  cols_label(
+    goal_diff = "goal difference",
+    goals_for = "goals scored"
+  ) |>
+  fmt_number(
+    columns = vars(points, goal_diff, goals_for),
+    decimals = 0
+  ) |>
+  data_color(
+    columns = vars(points),
+    colors = scales::col_numeric(
+      palette = c("red", "white", "green"),
+      domain = c(min(league_table$points), max(league_table$points))
+    )
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels(everything())
+  ) |>
+  tab_style(
+    style = cell_borders(sides = "all", color = "grey90", weight = px(1)),
+    locations = cells_body(everything())
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#f7f7f7"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(columns = vars(rank, team))
+  ) |> 
+  tab_options(
+    table.font.names = "Arial",
+    table.font.size = px(12),
+    heading.title.font.size = px(16),
+    heading.subtitle.font.size = px(14)
+  ) |>
+  tab_source_note("Source: English Premier League") |>
+  tab_style(
+    cell_fill(color = "steelblue1"),
+    locations = cells_body(
+      columns = rank,
+      rows = 1:4
+    )
+  ) |>
+  tab_style(
+    cell_fill(color = "red"),
+    locations = cells_body(
+      columns = rank,
+      rows = 18:20
+    )
+  ) |>
+  tab_options(table.font.size = px(15))
+
+# Display the table
+gt_table
+```
+**Rationale:**
+We used the `gt` package to create a more visually appealing and interactive table for the EPL league table. The `gt` package provides a wide range of customization options for tables, allowing us to improve the readability and aesthetics of the league table. We added styling, formatting, and color-coding to enhance the presentation of the data. The table now includes bold headers, color-coded points column, and custom styling for the top and bottom teams to make them stand out. The source note was also added for transparency and credibility. In the "rank" column for the top 4 teams, we used a light blue color to highlight their qualifications for the Champions League. As for the bottom 3 teams, we used red to highlight their relegation status. In the "points" column, we used a color gradient from red to green to represent the points range. These visual cues help users quickly identify key information and make the table more engaging and informative.
+
+# Task 2: Finding and Visualizing a Real-World Dataset
+
+
+## 2.1 Use R Code to Validate Conditions C, D, and E for Your Data
+```{r setup, warning=FALSE, message=FALSE}
+
+## Load the data
+data <- read.csv("data/country_temp.csv")
+
+singapore_data <- data %>%
+  filter(Country == "Singapore") %>%
+  na.omit()
+
+# Convert the 'dt' column to Date format and extract the year
+singapore_data$Year <- as.numeric(format(as.Date(singapore_data$dt, format="%Y-%m-%d"), "%Y"))
+
+# Average the data by unique year and round to 1 decimal place
+yearly_data <- singapore_data %>%
+  group_by(Year) %>%
+  summarise(
+    AvgTemperature = round(mean(AverageTemperature, na.rm = TRUE), 1),
+    AvgTemperatureUncertainty = round(mean(AverageTemperatureUncertainty, na.rm = TRUE), 1)
+  )
+
+
+print(yearly_data)
+```
+
+## 2.2 Plot 1 – Generate a Scatter Plot Using geom_point()
+```{r warning=FALSE, message=FALSE}
+# Generate the scatter plot
+scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point() +
+  labs(
+    title = "Scatterplot of Average Temperature in Singapore (1825 - 2013)",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the scatter plot
+print(scatter_plot)
+```
+
+## 2.3 Plot 2 – Create an Improved Plot to Mitigate Overplotting
+```{r warning=FALSE, message=FALSE}
+improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  labs(
+    title = "Improved Scatterplot of Average Temperature in Singapore (1825 - 2013)",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the improved scatter plot
+print(improved_scatter_plot)
+```
+
+## Plot 3 – Add a Trend Curve in Plot 2 and Discuss Insights
+```{r warning=FALSE, message=FALSE}
+# Scatter plot with transparency and jittering, and a trend curve
+scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Average Temperature in Singapore (1825 - 2013) with Trend Line",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+print(scatter_plot_with_trend)
+```
+### Integrating LOESS curve with Trend Line on Scatterplot
+
+```{r warning=FALSE, message=FALSE}
+# Scatter plot with transparency and jittering, and a LOESS smoothing curve
+scatter_plot_with_loess <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Average Temperature in Singapore (1825 - 2013) with LOESS Curve and Trend Line",
+    x = "Year",
+    y = "Average Temperature(°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+print(scatter_plot_with_loess)
+```
+
+```{r warning=FALSE, message=FALSE}
+# Scatter plot with transparency and jittering, LOESS smoothing curve, and confidence interval
+scatter_plot_with_loess_ci <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "loess", se = TRUE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+
+  labs(
+    title = "Scatter Plot with LOESS Smoothing and Confidence Interval of Year vs. Average Temperature in Singapore",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the scatter plot with LOESS smoothing and confidence interval
+print(scatter_plot_with_loess_ci)
+
+```
+
+Based on the scatter plot, it can be observed that the average temperature in Singapore has been increasing over the years. The trend line and LOESS curve further illustrate the general upward trend in temperature over the years.
+
+# Task 3: Visualizing Michelson’s Speed-of-Light Measurements
+
+```{r}
+#| echo: true
+#| eval: true
+data(morley)
+morley <- as_tibble(morley)
+morley
+```
+## 3.1 Convert Expt Column to Factor
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley <- morley |>
+  mutate(Expt = as.factor(Expt))
+morley
+```
+## 3.2 Plot 1 – Create a Scatter Plot displaying Experiment Number vs. Measured Speeds
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley |>
+  ggplot(aes(x = Expt, y = Speed)) +
+  geom_point() +
+  labs(title = "Experiment Number vs. Measured Speeds",
+       caption = "Source: R data set `morley`",
+       x = "Experiment Number",
+       y = "Measured Speeds")
+```
+## 3.3 Plot 2 – Create a Box Plot Measured Speeds with One Box Experiment
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley |>
+  ggplot(aes(x = Expt, y = Speed)) +
+  geom_boxplot() +
+  labs(title = "Measured Speeds with One Box Experiment",
+       caption = "Source: R data set `morley`",
+       x = "Experiment Number",
+       y = "Measured Speeds")
+```
+## 3.4 Plot 3 – Add a Violin Plot in Plot 2
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley |>
+  ggplot(aes(x = Expt, y = Speed)) +
+  geom_violin(fill = "lightblue", alpha = 0.3) +
+  geom_boxplot(width = 0.2) +
+  labs(title = "Measured Speeds with One Box Experiment with Violin plots",
+       caption = "Source: R data set `morley`",
+       x = "Experiment Number",
+       y = "Measured Speeds")
+```
+
+## 3.5 Plot 4 – Create a Faceted Plot Containing 5 Histograms
+
+```{r}
+#| eval: true
+#| echo: true
+
+morley |>
+  ggplot(aes(x = Speed)) +
+  geom_histogram(bins = 10, fill = NA, color="black") +
+  facet_wrap(~Expt) +
+  labs(title = "Faceted Plot Containing 5 Histograms",
+       caption = "Source: R data set `morley`",
+       x = "Measured Speeds",
+       y = "Frequency")
+```
+## 3.6 Discuss Your Choice Among the 4 Visualization Plots
+
+We choose Plot 3 - Violin Plot + Box Plot. Since violin plot can be used for grouped data, this plot is chosen because it provides a good visualization of the distribution of the measured speeds across the different experiments. The box plot provides a summary of the distribution of the measured speeds, while the violin plot provides a more detailed view of the distribution of the measured speeds. The combination of the two plots allows us to see the spread of the measured speeds and the distribution of the measured speeds within each experiment.   
