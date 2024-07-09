@@ -170,7 +170,122 @@ We used the `gt` package to create a more visually appealing and interactive tab
 
 # Task 2: Finding and Visualizing a Real-World Dataset
 
-...
+
+## 2.1 Loading and Cleaning of Data by Removing NA Values and Averaging Yearly Data
+```{r setup, warning=FALSE, message=FALSE}
+## Load necessary library
+library(dplyr)
+library(ggplot2)
+
+## Load the data
+data <- read.csv("country_temp.csv")
+
+singapore_data <- data %>%
+  filter(Country == "Singapore") %>%
+  na.omit()
+
+# Convert the 'dt' column to Date format and extract the year
+singapore_data$Year <- as.numeric(format(as.Date(singapore_data$dt, format="%Y-%m-%d"), "%Y"))
+
+# Average the data by unique year and round to 1 decimal place
+yearly_data <- singapore_data %>%
+  group_by(Year) %>%
+  summarise(
+    AvgTemperature = round(mean(AverageTemperature, na.rm = TRUE), 1),
+    AvgTemperatureUncertainty = round(mean(AverageTemperatureUncertainty, na.rm = TRUE), 1)
+  )
+
+
+print(yearly_data)
+```
+
+## 2.2 Generating Scatterplot of the Average Temperature in Singapore
+```{r warning=FALSE, message=FALSE}
+# Generate the scatter plot
+scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point() +
+  labs(
+    title = "Scatterplot of Average Temperature in Singapore (1825 - 2013)",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the scatter plot
+print(scatter_plot)
+```
+
+## 2.3 Improving the Scatterplot with Transparency and Jittering
+```{r warning=FALSE, message=FALSE}
+improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  labs(
+    title = "Improved Scatterplot of Average Temperature in Singapore (1825 - 2013)",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the improved scatter plot
+print(improved_scatter_plot)
+```
+
+## 2.4 Adding a Trend Line to the Scatterplot
+```{r warning=FALSE, message=FALSE}
+# Scatter plot with transparency and jittering, and a trend curve
+scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Average Temperature in Singapore (1825 - 2013) with Trend Line",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+print(scatter_plot_with_trend)
+```
+### Integrating LOESS curve with Trend Line on Scatterplot
+
+```{r warning=FALSE, message=FALSE}
+# Scatter plot with transparency and jittering, and a LOESS smoothing curve
+scatter_plot_with_loess <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Average Temperature in Singapore (1825 - 2013) with LOESS Curve and Trend Line",
+    x = "Year",
+    y = "Average Temperature(°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+print(scatter_plot_with_loess)
+```
+
+```{r warning=FALSE, message=FALSE}
+# Scatter plot with transparency and jittering, LOESS smoothing curve, and confidence interval
+scatter_plot_with_loess_ci <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "loess", se = TRUE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+
+  labs(
+    title = "Scatter Plot with LOESS Smoothing and Confidence Interval of Year vs. Average Temperature in Singapore",
+    x = "Year",
+    y = "Average Temperature (°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the scatter plot with LOESS smoothing and confidence interval
+print(scatter_plot_with_loess_ci)
+
+```
+
+Based on the scatter plot, it can be observed that the average temperature in Singapore has been increasing over the years. The trend line and LOESS curve further illustrate the general upward trend in temperature over the years.
 
 # Task 3: Visualizing Michelson’s Speed-of-Light Measurements
 
