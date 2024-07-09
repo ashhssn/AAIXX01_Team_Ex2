@@ -20,6 +20,8 @@ number_sections: false
 
 # Task 2: Finding and Visualizing a Real-World Dataset
 
+
+## Loading and Cleaning of Data by Removing NA Values and Averaging Yearly Data
 ```{r}
 ## Load necessary library
 library(dplyr)
@@ -28,15 +30,15 @@ library(ggplot2)
 ## Load the data
 data <- read.csv("country_temp.csv")
 
-afghanistan_data <- data %>%
+singapore_data <- data %>%
   filter(Country == "Singapore") %>%
   na.omit()
 
 # Convert the 'dt' column to Date format and extract the year
-afghanistan_data$Year <- as.numeric(format(as.Date(afghanistan_data$dt, format="%Y-%m-%d"), "%Y"))
+singapore_data$Year <- as.numeric(format(as.Date(singapore_data$dt, format="%Y-%m-%d"), "%Y"))
 
 # Average the data by unique year and round to 1 decimal place
-yearly_data <- afghanistan_data %>%
+yearly_data <- singapore_data %>%
   group_by(Year) %>%
   summarise(
     AvgTemperature = round(mean(AverageTemperature, na.rm = TRUE), 1),
@@ -46,12 +48,14 @@ yearly_data <- afghanistan_data %>%
 
 print(yearly_data)
 ```
+
+## Generating Scatterplot of the Average Temperature in Singapore
 ```{r}
 # Generate the scatter plot
 scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
   geom_point() +
   labs(
-    title = "Scatter Plot of Year vs. Average Temperature Uncertainty",
+    title = "Scatterplot of Average Temperature in Singapore (1825 - 2013)",
     x = "Year",
     y = "Average Temperature Uncertainty (°C)",
     caption = "Data Source: [URL of your dataset]"
@@ -61,11 +65,13 @@ scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
 # Print the scatter plot
 print(scatter_plot)
 ```
+
+## Improving the Scatterplot with Transparency and Jittering
 ```{r}
 improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
   geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
   labs(
-    title = "Improved Scatter Plot of Year vs. Average Temperature Uncertainty in Afghanistan",
+    title = "Improved Scatterplot of Average Temperature in Singapore (1825 - 2013)",
     x = "Year",
     y = "Average Temperature Uncertainty (°C)",
     caption = "Data Source: [URL of your dataset]"
@@ -76,14 +82,14 @@ improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) 
 print(improved_scatter_plot)
 ```
 
-
+## Adding a Trend Line to the Scatterplot
 ```{r}
 # Scatter plot with transparency and jittering, and a trend curve
 scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
   geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(
-    title = "Scatter Plot with Trend Curve of Year vs. Average Temperature Uncertainty in Afghanistan",
+    title = "Average Temperature in Singapore (1825 - 2013) with Trend Line",
     x = "Year",
     y = "Average Temperature Uncertainty (°C)",
     caption = "Data Source: [URL of your dataset]"
@@ -91,6 +97,7 @@ scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)
   theme_minimal()
 print(scatter_plot_with_trend)
 ```
+## Integrating LOESS curve with Trend Line on Scatterplot
 
 ```{r}
 # Scatter plot with transparency and jittering, and a LOESS smoothing curve
@@ -99,7 +106,7 @@ scatter_plot_with_loess <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)
   geom_smooth(method = "loess", se = FALSE, color = "blue") +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(
-    title = "Average Temperature in Singapore (1825 - 2013)",
+    title = "Average Temperature in Singapore (1825 - 2013) with LOESS Curve and Trend Line",
     x = "Year",
     y = "Average Temperature(°C)",
     caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
