@@ -58,7 +58,7 @@ scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
     title = "Scatterplot of Average Temperature in Singapore (1825 - 2013)",
     x = "Year",
     y = "Average Temperature Uncertainty (°C)",
-    caption = "Data Source: [URL of your dataset]"
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
   ) +
   theme_minimal()
 
@@ -74,7 +74,7 @@ improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) 
     title = "Improved Scatterplot of Average Temperature in Singapore (1825 - 2013)",
     x = "Year",
     y = "Average Temperature Uncertainty (°C)",
-    caption = "Data Source: [URL of your dataset]"
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
   ) +
   theme_minimal()
 
@@ -92,7 +92,7 @@ scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)
     title = "Average Temperature in Singapore (1825 - 2013) with Trend Line",
     x = "Year",
     y = "Average Temperature Uncertainty (°C)",
-    caption = "Data Source: [URL of your dataset]"
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
   ) +
   theme_minimal()
 print(scatter_plot_with_trend)
