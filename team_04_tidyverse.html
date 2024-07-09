@@ -8,7 +8,7 @@
 
 <meta name="author" content="Ashsyahid, Owen, Sherwyn, Xuan Yu, Nigel">
 
-<title>team_04_tidyverse.qmd</title>
+<title>week_10_lab_personal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -3041,14 +3075,14 @@ vertical-align: -.125em;
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
+  <ul>
+  <li><a href="#task-1-converting-epl-football-results-into-a-league-table" id="toc-task-1-converting-epl-football-results-into-a-league-table" class="nav-link active" data-scroll-target="#task-1-converting-epl-football-results-into-a-league-table"><span class="header-section-number">1</span> Task 1: Converting EPL Football Results into a League Table</a>
   <ul class="collapse">
-  <li><a href="#task-1-converting-epl-football-results-into-a-league-table" id="toc-task-1-converting-epl-football-results-into-a-league-table" class="nav-link active" data-scroll-target="#task-1-converting-epl-football-results-into-a-league-table">Task 1: Converting EPL Football Results into a League Table</a>
-  <ul class="collapse">
-  <li><a href="#generate-a-league-table-from-the-epl-results" id="toc-generate-a-league-table-from-the-epl-results" class="nav-link" data-scroll-target="#generate-a-league-table-from-the-epl-results">1.1 Generate a League Table from the EPL Results</a></li>
-  <li><a href="#improve-visualization-using-gt-functions" id="toc-improve-visualization-using-gt-functions" class="nav-link" data-scroll-target="#improve-visualization-using-gt-functions">1.2 Improve Visualization Using <code>gt</code> Functions</a></li>
+  <li><a href="#generate-a-league-table-from-the-epl-results" id="toc-generate-a-league-table-from-the-epl-results" class="nav-link" data-scroll-target="#generate-a-league-table-from-the-epl-results"><span class="header-section-number">1.1</span> 1.1 Generate a League Table from the EPL Results</a></li>
+  <li><a href="#improve-visualization-using-gt-functions" id="toc-improve-visualization-using-gt-functions" class="nav-link" data-scroll-target="#improve-visualization-using-gt-functions"><span class="header-section-number">1.2</span> 1.2 Improve Visualization Using <code>gt</code> Functions</a></li>
   </ul></li>
-  <li><a href="#task-2-finding-and-visualizing-a-real-world-dataset" id="toc-task-2-finding-and-visualizing-a-real-world-dataset" class="nav-link" data-scroll-target="#task-2-finding-and-visualizing-a-real-world-dataset">Task 2: Finding and Visualizing a Real-World Dataset</a></li>
-  <li><a href="#task-3-visualizing-michelsons-speed-of-light-measurements" id="toc-task-3-visualizing-michelsons-speed-of-light-measurements" class="nav-link" data-scroll-target="#task-3-visualizing-michelsons-speed-of-light-measurements">Task 3: Visualizing Michelson’s Speed-of-Light Measurements</a></li>
+  <li><a href="#task-2-finding-and-visualizing-a-real-world-dataset" id="toc-task-2-finding-and-visualizing-a-real-world-dataset" class="nav-link" data-scroll-target="#task-2-finding-and-visualizing-a-real-world-dataset"><span class="header-section-number">2</span> Task 2: Finding and Visualizing a Real-World Dataset</a></li>
+  <li><a href="#task-3-visualizing-michelsons-speed-of-light-measurements" id="toc-task-3-visualizing-michelsons-speed-of-light-measurements" class="nav-link" data-scroll-target="#task-3-visualizing-michelsons-speed-of-light-measurements"><span class="header-section-number">3</span> Task 3: Visualizing Michelson’s Speed-of-Light Measurements</a></li>
   </ul>
 </nav>
 </div>
@@ -3056,7 +3090,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">team_04_tidyverse.qmd</h1>
+<h1 class="title">week_10_lab_personal</h1>
 </div>
 
 
@@ -3070,6 +3104,12 @@ vertical-align: -.125em;
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Tuesday Jul 9, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -3079,23 +3119,152 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="task-1-converting-epl-football-results-into-a-league-table" class="level1">
-<h1>Task 1: Converting EPL Football Results into a League Table</h1>
-<section id="generate-a-league-table-from-the-epl-results" class="level2">
-<h2 class="anchored" data-anchor-id="generate-a-league-table-from-the-epl-results">1.1 Generate a League Table from the EPL Results</h2>
+<section id="task-1-converting-epl-football-results-into-a-league-table" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Task 1: Converting EPL Football Results into a League Table</h1>
+<section id="generate-a-league-table-from-the-epl-results" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="generate-a-league-table-from-the-epl-results"><span class="header-section-number">1.1</span> 1.1 Generate a League Table from the EPL Results</h2>
+<p>generate league table tibble with the following columns: rank team points goal_diff goals_for</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;tidyverse&#39; was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;tidyr&#39; was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;gt&#39; was built under R version 4.4.1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>epl_results <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;epl/epl_results.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 20 Columns: 21
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (21): home_team, ars, avl, bou, bha, bur, che, cry, eve, lei, liv, mci, ...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;epl/epl_teams.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 20 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (2): name, abbr
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the results data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>epl_results_long <span class="ot">&lt;-</span> epl_results <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>home_team, <span class="at">names_to =</span> <span class="st">&quot;away_team&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;result&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(result, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;home_goals&quot;</span>, <span class="st">&quot;away_goals&quot;</span>), <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>, <span class="at">convert =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(home_goals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate home team statistics</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>home_stats <span class="ot">&lt;-</span> epl_results_long <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(home_team) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">points_home =</span> <span class="fu">sum</span>(<span class="fu">if_else</span>(home_goals <span class="sc">&gt;</span> away_goals, <span class="dv">3</span>, <span class="fu">if_else</span>(home_goals <span class="sc">==</span> away_goals, <span class="dv">1</span>, <span class="dv">0</span>))),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">goals_for_home =</span> <span class="fu">sum</span>(home_goals),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">goals_against_home =</span> <span class="fu">sum</span>(away_goals)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate away team statistics</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>away_stats <span class="ot">&lt;-</span> epl_results_long <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(away_team) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">points_away =</span> <span class="fu">sum</span>(<span class="fu">if_else</span>(away_goals <span class="sc">&gt;</span> home_goals, <span class="dv">3</span>, <span class="fu">if_else</span>(away_goals <span class="sc">==</span> home_goals, <span class="dv">1</span>, <span class="dv">0</span>))),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">goals_for_away =</span> <span class="fu">sum</span>(away_goals),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">goals_against_away =</span> <span class="fu">sum</span>(home_goals)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine home and away statistics</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>team_stats <span class="ot">&lt;-</span> home_stats <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">team =</span> home_team) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(away_stats, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;team&quot;</span> <span class="ot">=</span> <span class="st">&quot;away_team&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">points =</span> points_home <span class="sc">+</span> points_away,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">goals_for =</span> goals_for_home <span class="sc">+</span> goals_for_away,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">goals_against =</span> goals_against_home <span class="sc">+</span> goals_against_away,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">goal_diff =</span> goals_for <span class="sc">-</span> goals_against</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(team, points, goal_diff, goals_for)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add full team names</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>league_table <span class="ot">&lt;-</span> team_stats <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(epl_teams, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;team&quot;</span> <span class="ot">=</span> <span class="st">&quot;abbr&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">team =</span> name, points, goal_diff, goals_for)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank the teams</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>league_table <span class="ot">&lt;-</span> league_table <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(points), <span class="fu">desc</span>(goal_diff), <span class="fu">desc</span>(goals_for)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">row_number</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the league table</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>league_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 5
+   team                    points goal_diff goals_for  rank
+   &lt;chr&gt;                    &lt;dbl&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt;
+ 1 Liverpool                   99        52        85     1
+ 2 Manchester City             81        67       102     2
+ 3 Manchester United           66        30        66     3
+ 4 Chelsea                     66        15        69     4
+ 5 Leicester City              62        26        67     5
+ 6 Tottenham Hotspur           59        14        61     6
+ 7 Wolverhampton Wanderers     59        11        51     7
+ 8 Arsenal                     56         8        56     8
+ 9 Sheffield United            54         0        39     9
+10 Burnley                     54        -7        43    10
+11 Southampton                 52        -9        51    11
+12 Everton                     49       -12        44    12
+13 Newcastle United            44       -20        38    13
+14 Crystal Palace              43       -19        31    14
+15 Brighton &amp; Hove Albion      41       -15        39    15
+16 West Ham United             39       -13        49    16
+17 Aston Villa                 35       -26        41    17
+18 Bournemouth                 34       -25        40    18
+19 Watford                     34       -28        36    19
+20 Norwich City                21       -49        26    20</code></pre>
+</div>
+</div>
 <p>…</p>
 </section>
-<section id="improve-visualization-using-gt-functions" class="level2">
-<h2 class="anchored" data-anchor-id="improve-visualization-using-gt-functions">1.2 Improve Visualization Using <code>gt</code> Functions</h2>
+<section id="improve-visualization-using-gt-functions" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="improve-visualization-using-gt-functions"><span class="header-section-number">1.2</span> 1.2 Improve Visualization Using <code>gt</code> Functions</h2>
 <p>…</p>
 </section>
 </section>
-<section id="task-2-finding-and-visualizing-a-real-world-dataset" class="level1">
-<h1>Task 2: Finding and Visualizing a Real-World Dataset</h1>
+<section id="task-2-finding-and-visualizing-a-real-world-dataset" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Task 2: Finding and Visualizing a Real-World Dataset</h1>
 <p>…</p>
 </section>
-<section id="task-3-visualizing-michelsons-speed-of-light-measurements" class="level1">
-<h1>Task 3: Visualizing Michelson’s Speed-of-Light Measurements</h1>
+<section id="task-3-visualizing-michelsons-speed-of-light-measurements" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Task 3: Visualizing Michelson’s Speed-of-Light Measurements</h1>
 <p>…</p>
 </section>
 
