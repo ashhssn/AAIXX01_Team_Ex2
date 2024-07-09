@@ -24,11 +24,151 @@ library(tidyverse)
 
 ## 1.1 Generate a League Table from the EPL Results
 
+generate league table tibble with the following columns:
+rank team                    points goal_diff goals_for
+
+```{r warning=FALSE, message=FALSE}
+library(tidyverse)
+library(gt)
+```
+
+```{r warning=FALSE, message=FALSE}
+epl_results <- read_csv("epl/epl_results.csv")
+epl_teams <- read_csv("epl/epl_teams.csv")
+```
+
+```{r}
+# Prepare the results data
+epl_results_long <- epl_results %>%
+  pivot_longer(cols = -home_team, names_to = "away_team", values_to = "result") %>%
+  separate(result, into = c("home_goals", "away_goals"), sep = "-", convert = TRUE) %>%
+  filter(!is.na(home_goals))
+```
+
+```{r}
+# Calculate home team statistics
+home_stats <- epl_results_long %>%
+  group_by(home_team) %>%
+  summarize(
+    points_home = sum(if_else(home_goals > away_goals, 3, if_else(home_goals == away_goals, 1, 0))),
+    goals_for_home = sum(home_goals),
+    goals_against_home = sum(away_goals)
+  )
+```
+
+```{r}
+# Calculate away team statistics
+away_stats <- epl_results_long %>%
+  group_by(away_team) %>%
+  summarize(
+    points_away = sum(if_else(away_goals > home_goals, 3, if_else(away_goals == home_goals, 1, 0))),
+    goals_for_away = sum(away_goals),
+    goals_against_away = sum(home_goals)
+  )
+```
+
+```{r}
+# Combine home and away statistics
+team_stats <- home_stats %>%
+  rename(team = home_team) %>%
+  full_join(away_stats, by = c("team" = "away_team")) %>%
+  mutate(
+    points = points_home + points_away,
+    goals_for = goals_for_home + goals_for_away,
+    goals_against = goals_against_home + goals_against_away,
+    goal_diff = goals_for - goals_against
+  ) %>%
+  select(team, points, goal_diff, goals_for)
+```
+
+```{r}
+# Add full team names
+league_table <- team_stats %>%
+  left_join(epl_teams, by = c("team" = "abbr")) %>%
+  select(team = name, points, goal_diff, goals_for)
+```
+
+```{r}
+# Rank the teams
+league_table <- league_table %>%
+  arrange(desc(points), desc(goal_diff), desc(goals_for)) %>%
+  mutate(rank = row_number()) |>
+  select(rank, team, points, goal_diff, goals_for)
+```
+
+```{r}
+# Display the league table
+league_table
+```
 ...
 
 ## 1.2 Improve Visualization Using `gt` Functions
+```{r}
+# Create a gt table
+gt_table <- league_table |>
+  gt() |>
+  tab_header(
+    title = md("**English Premier League Table**"),
+    subtitle = md("Season: 2023/2024")
+  ) |>
+  cols_label(
+    goal_diff = "goal difference",
+    goals_for = "goals scored"
+  ) |>
+  fmt_number(
+    columns = vars(points, goal_diff, goals_for),
+    decimals = 0
+  ) |>
+  data_color(
+    columns = vars(points),
+    colors = scales::col_numeric(
+      palette = c("red", "white", "green"),
+      domain = c(min(league_table$points), max(league_table$points))
+    )
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels(everything())
+  ) |>
+  tab_style(
+    style = cell_borders(sides = "all", color = "grey90", weight = px(1)),
+    locations = cells_body(everything())
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "#f7f7f7"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(columns = vars(rank, team))
+  ) |> 
+  tab_options(
+    table.font.names = "Arial",
+    table.font.size = px(12),
+    heading.title.font.size = px(16),
+    heading.subtitle.font.size = px(14)
+  ) |>
+  tab_source_note("Source: English Premier League") |>
+  tab_style(
+    cell_fill(color = "steelblue1"),
+    locations = cells_body(
+      columns = rank,
+      rows = 1:4
+    )
+  ) |>
+  tab_style(
+    cell_fill(color = "red"),
+    locations = cells_body(
+      columns = rank,
+      rows = 18:20
+    )
+  ) |>
+  tab_options(table.font.size = px(15))
 
-...
+# Display the table
+gt_table
+```
+**Rationale:**
+We used the `gt` package to create a more visually appealing and interactive table for the EPL league table. The `gt` package provides a wide range of customization options for tables, allowing us to improve the readability and aesthetics of the league table. We added styling, formatting, and color-coding to enhance the presentation of the data. The table now includes bold headers, color-coded points column, and custom styling for the top and bottom teams to make them stand out. The source note was also added for transparency and credibility. In the "rank" column for the top 4 teams, we used a light blue color to highlight their qualifications for the Champions League. As for the bottom 3 teams, we used red to highlight their relegation status. In the "points" column, we used a color gradient from red to green to represent the points range. These visual cues help users quickly identify key information and make the table more engaging and informative.
 
 # Task 2: Finding and Visualizing a Real-World Dataset
 
