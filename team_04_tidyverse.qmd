@@ -173,12 +173,9 @@ We used the `gt` package to create a more visually appealing and interactive tab
 
 ## 2.1 Loading and Cleaning of Data by Removing NA Values and Averaging Yearly Data
 ```{r setup, warning=FALSE, message=FALSE}
-## Load necessary library
-library(dplyr)
-library(ggplot2)
 
 ## Load the data
-data <- read.csv("country_temp.csv")
+data <- read.csv("data/country_temp.csv")
 
 singapore_data <- data %>%
   filter(Country == "Singapore") %>%
