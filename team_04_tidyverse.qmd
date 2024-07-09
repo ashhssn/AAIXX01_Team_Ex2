@@ -20,7 +20,95 @@ number_sections: false
 
 # Task 2: Finding and Visualizing a Real-World Dataset
 
-...
+```{r}
+## Load necessary library
+library(dplyr)
+library(ggplot2)
+
+## Load the data
+data <- read.csv("country_temp.csv")
+
+afghanistan_data <- data %>%
+  filter(Country == "Singapore") %>%
+  na.omit()
+
+# Convert the 'dt' column to Date format and extract the year
+afghanistan_data$Year <- as.numeric(format(as.Date(afghanistan_data$dt, format="%Y-%m-%d"), "%Y"))
+
+# Average the data by unique year and round to 1 decimal place
+yearly_data <- afghanistan_data %>%
+  group_by(Year) %>%
+  summarise(
+    AvgTemperature = round(mean(AverageTemperature, na.rm = TRUE), 1),
+    AvgTemperatureUncertainty = round(mean(AverageTemperatureUncertainty, na.rm = TRUE), 1)
+  )
+
+
+print(yearly_data)
+```
+```{r}
+# Generate the scatter plot
+scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point() +
+  labs(
+    title = "Scatter Plot of Year vs. Average Temperature Uncertainty",
+    x = "Year",
+    y = "Average Temperature Uncertainty (°C)",
+    caption = "Data Source: [URL of your dataset]"
+  ) +
+  theme_minimal()
+
+# Print the scatter plot
+print(scatter_plot)
+```
+```{r}
+improved_scatter_plot <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  labs(
+    title = "Improved Scatter Plot of Year vs. Average Temperature Uncertainty in Afghanistan",
+    x = "Year",
+    y = "Average Temperature Uncertainty (°C)",
+    caption = "Data Source: [URL of your dataset]"
+  ) +
+  theme_minimal()
+
+# Print the improved scatter plot
+print(improved_scatter_plot)
+```
+
+
+```{r}
+# Scatter plot with transparency and jittering, and a trend curve
+scatter_plot_with_trend <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Scatter Plot with Trend Curve of Year vs. Average Temperature Uncertainty in Afghanistan",
+    x = "Year",
+    y = "Average Temperature Uncertainty (°C)",
+    caption = "Data Source: [URL of your dataset]"
+  ) +
+  theme_minimal()
+print(scatter_plot_with_trend)
+```
+
+```{r}
+# Scatter plot with transparency and jittering, and a LOESS smoothing curve
+scatter_plot_with_loess <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Average Temperature in Singapore (1825 - 2013)",
+    x = "Year",
+    y = "Average Temperature(°C)",
+    caption = "Data Source: (https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+print(scatter_plot_with_loess)
+```
+Data Source: [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)
+
 
 # Task 3: Visualizing Michelson’s Speed-of-Light Measurements
 
