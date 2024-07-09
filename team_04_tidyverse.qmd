@@ -25,12 +25,6 @@ library(tidyverse)
 # Task 1: Converting EPL Football Results into a League Table
 
 ## 1.1 Generate a League Table from the EPL Results
-
-```{r warning=FALSE, message=FALSE}
-library(tidyverse)
-library(gt)
-```
-
 ```{r warning=FALSE, message=FALSE}
 epl_results <- read_csv("epl/epl_results.csv")
 epl_teams <- read_csv("epl/epl_teams.csv")
