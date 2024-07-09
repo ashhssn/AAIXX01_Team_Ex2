@@ -117,6 +117,26 @@ print(scatter_plot_with_loess)
 Data Source: [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)
 
 
+```{r}
+# Scatter plot with transparency and jittering, LOESS smoothing curve, and confidence interval
+scatter_plot_with_loess_ci <- ggplot(yearly_data, aes(x = Year, y = AvgTemperature)) +
+  geom_point(alpha = 0.6, position = position_jitter(width = 0.2, height = 0.2)) +
+  geom_smooth(method = "loess", se = TRUE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+
+  labs(
+    title = "Scatter Plot with LOESS Smoothing and Confidence Interval of Year vs. Average Temperature Uncertainty in Afghanistan",
+    x = "Year",
+    y = "Average Temperature Uncertainty (°C)",
+    caption = "Data Source: [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data/data)"
+  ) +
+  theme_minimal()
+
+# Print the scatter plot with LOESS smoothing and confidence interval
+print(scatter_plot_with_loess_ci)
+
+```
+
 # Task 3: Visualizing Michelson’s Speed-of-Light Measurements
 
 ...
